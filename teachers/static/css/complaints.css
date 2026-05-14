@@ -1,0 +1,51 @@
+.ss {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid #ddd; /* Рамка вокруг формы */
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.complaint_head {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    flex: 1;
+    padding: 10px; /* Отступы внутри поля ввода */
+    border: 1px solid #ccc; /* Рамка вокруг полей ввода */
+    border-radius: 4px;
+    font-size: 16px; /* Размер текста */
+    color: #555; /* Цвет текста */
+}
+
+.btn_complaint {
+    display: block;
+    margin: auto;
+    padding: 10px 20px;
+    background-color: #8b5e34; /* Цвет кнопки */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Размер текста на кнопке */
+    text-transform: uppercase; /* Преобразование текста в верхний регистр */
+
+
+    &:hover {
+    background-color: #7a4f2d; /* Цвет кнопки при наведении */
+    }
+}
+.warning {
+    color: red;
+    margin-top: 10px;
+}

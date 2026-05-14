@@ -1,0 +1,23 @@
+{% extends "users/profile.html" %}
+{% load static %}
+
+
+<head>
+
+</head>
+<body>
+
+    {% block edit_profile %}
+    {% endblock edit_profile %}
+
+    {% block image_user %}
+        {% for items in profiles %}
+            {% if items.image %}
+                <img src="{{ items.image.url }}" class="profile-image rounded-circle me-4">
+            {% else %}
+                <img src="{% static "deps/image/base_image.jpg" %}" class="profile-image rounded-circle me-4" alt="...">
+            {% endif %}
+        {% endfor %}
+    {% endblock image_user %}
+
+</body>

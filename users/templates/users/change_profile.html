@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters_profile %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static "css/profile.css" %}">
+</head>
+
+<body>
+<form class="profile-container" action="{% url 'users:change_profile' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="profile-header">
+        <div class="profile-picture">
+            {% if form.image.value %}
+                <img src="{{ user.image.url }}" class="profile-image rounded-circle me-4" alt="...">
+            {% else %}
+                <img src="{% static "deps/image/base_image.jpg" %}" class="profile-image rounded-circle me-4" alt="...">
+            {% endif %}
+            <div class="edit-photo-container">
+                <label for="id_image" class="edit-photo-label">Edit photo</label>
+                <input type="file" class="form-control edit-photo-input" id="id_image" name="image" accept="image/*">
+                {% if form.image.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.image.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="profile-info">
+            <h1>
+                <input name="first_name" id="id_first_name" class="add_info p-2" value="{{ form.first_name.value }}">
+                <input name="last_name" id="id_last_name" class="add_info p-2" value="{{ form.last_name.value }}">
+            </h1>
+            <h2>
+                {% for specialization in specializations %}
+                    {% if specialization.id == form.main_specialty.value %}
+                        {{ specialization.name_spec }} Teacher
+                    {% endif %}
+                {% endfor %}
+            </h2>
+            <input type="hidden" name="main_specialty" id="id_main_specialty" value="{{ form.main_specialty.value }}">
+            <div class="contact-info">
+                <div>
+                    <strong class="header_prof">Age</strong>
+                    <input class="add_info" value="{% if form.age.value %}{{ form.age.value }}{% endif %}" name="age" id="id_age" type="text" placeholder="Enter your age">
+                </div>
+                <div>
+                    <strong class="header_prof">Experience</strong>
+                    <input class="add_info" value="{% if form.experience.value %}{{ form.experience.value }}{% endif %}" name="experience" id="id_experience" type="text" placeholder="Enter experience">
+                </div>
+                <div>
+                    <strong class="header_prof">Mode of Teaching</strong>
+                    <input type="text" list="type_teaching" id="id_mode_teaching" name="mode_teaching" class="add_info" placeholder="Choose type" value="{% if form.mode_teaching.value %}{{ form.mode_teaching.value }}{% endif %}">
+                    <datalist id="type_teaching">
+                        {% for type in modes %}
+                        <option value="{{ type.name_mode }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="location_info">
+                    <strong class="header_prof">Location</strong>
+                    <input type="text" list="cityes" id="id_locations" name="locations" class="add_info" placeholder="Enter location" value="{{ form.locations.value }}">
+                    <datalist id="cityes">
+                        {% for loca in location %}
+                        <option value="{{ loca.name }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-content">
+        <div class="profile-details">
+            <h3>
+                <strong class="header_prof">Info about you</strong>
+            </h3>
+            <textarea class="fixed-textarea" id="id_info_about_teacher" name="info_about_teacher" placeholder="Enter detailed information about you">{% if form.info_about_teacher.value %}{{ form.info_about_teacher.value }}{% endif %}</textarea>
+            <h3>
+                <strong class="header_prof">Work Experience</strong>
+            </h3>
+            <textarea class="fixed-textarea" id="id_work_experience" name="work_experience" placeholder="Enter detailed information about you">{% if form.work_experience.value %}{{ form.work_experience.value }}{% endif %}</textarea>
+            <h3>
+                <strong class="header_prof">Other specialization</strong>
+            </h3>
+            <textarea class="fixed-textarea" id="id_other_specialities" name="other_specialities" placeholder="Enter detailed information about you">{% if form.other_specialities.value %}{{ form.other_specialities.value }}{% endif %}</textarea>
+        </div>
+        <div class="contact-details">
+            <h3>
+                <strong class="header_prof">Contact Information</strong>
+            </h3>
+            <p><strong>Personal identifier:</strong> {{ form.username.value }}</p>
+            <input type="hidden" name="username" id="id_username" value="{{ form.username.value }}">
+            <div>
+                <input class="contact_input_info" id="id_email" name="email" value="{% if form.email.value %}{{ form.email.value }}{% endif %}" type="email" placeholder="Enter your email">
+            </div>
+            <div>
+                <input class="contact_input_info" id="id_phone" name="phone" value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}" type="text" placeholder="Enter your phone number">
+            </div>
+            <h3>
+                <strong class="header_prof">Education</strong>
+            </h3>
+            <textarea class="fixed-textarea" id="id_education" name="education" placeholder="Enter detailed information about you">{% if form.education.value %}{{ form.education.value }}{% endif %}</textarea>
+        </div>
+    </div>
+    {% block btn %}
+    <button type="submit" class="btn btn-outline-success confirm_info">Confirm</button>
+    {% endblock btn %}
+    <div class="errors_change">
+        <div class="left_errors_block">
+            {% if form.first_name.errors %}
+            <div class="warning">{{ form.first_name.errors }}</div>
+            {% endif %}
+            {% if form.last_name.errors %}
+            <div class="warning">{{ form.last_name.errors }}</div>
+            {% endif %}
+            {% if form.age.errors %}
+            <div class="warning">{{ form.age.errors }}</div>
+            {% endif %}
+            {% if form.mode_teaching.errors %}
+            <div class="warning_id">Select one of the suggested values in the type of teaching field.</div>
+            {% endif %}
+        </div>
+        <div class="right_errors_block">
+            {% if form.locations.errors %}
+            <div class="warning_id">Select one of the suggested values in the location field.</div>
+            {% endif %}
+            {% if form.experience.errors %}
+            <div class="warning">{{ form.experience.errors }}</div>
+            {% endif %}
+            {% if form.phone.errors %}
+            <div class="warning">{{ form.phone.errors }}</div>
+            {% endif %}
+            {% if form.email.errors %}
+            <div class="warning">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+    </div>
+</form>
+</body>
+<script src="{% static 'js/registration.js' %}"></script>
+{% endblock %}

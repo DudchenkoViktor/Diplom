@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters_profile %}
+
+{% block content %}
+    <head xmlns="http://www.w3.org/1999/html">
+        <link rel="stylesheet" href="{% static "css/profile.css" %}">
+    </head>
+
+    <body>
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-picture">
+                    {% block image_user %}
+                        {% if user.image %}
+                            <img src="{{ user.image.url }}" class="profile-image rounded-circle me-4">
+                        {% else %}
+                            <img src="{% static "deps/image/base_image.jpg" %}" class="profile-image rounded-circle me-4" alt="...">
+                        {% endif %}
+                    {% endblock image_user %}
+                </div>
+                <div class="profile-info">
+
+                    {% for info in profiles %}
+                        <h1>
+                            {{ info.first_name }} {{ info.last_name }}
+                        </h1>
+
+                        <h2>
+                            {% block spec %}
+                                {{ info.main_specialty }}
+                            {% endblock spec %}
+                        </h2>
+
+                        {% block edit_profile %}
+                            <a class="edit_profile" href="{% url 'users:change_profile' %}">
+                                Edit profile
+                            </a>
+                        {% endblock %}
+
+                                <div class="contact-info">
+                                    <div>
+                                        <strong class="header_prof">Age</strong>
+                                            {{ info.age|default_no_info }}
+                                    </div>
+
+                                    <div>
+                                        <strong class="header_prof">Experience</strong>
+                                            {{ info.experience|default_no_info }}
+                                    </div>
+
+                                    <div>
+                                        <strong class="header_prof">Mode of Teaching</strong>
+                                            {{ info.mode_teaching|default_no_info }}
+                                    </div>
+
+                                <div class="location_info">
+
+                            <strong class="header_prof">Location</strong>
+                                    {{ info.locations|default_no_info }}
+
+                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-content">
+                            <div class="profile-details">
+                                <div class="block_info">
+                                     <h3>
+                                        <strong class="header_prof">Info about you</strong>
+                                    </h3>
+                                    <p class="info">{{ info.info_about_teacher|default_no_info }}</p>
+                                </div>
+
+                                <div class="block_info">
+                                    <h3>
+                                        <strong class="header_prof">Work Experience</strong>
+                                    </h3>
+                                        <p class="info">{{ info.work_experience|default_no_info }}</p>
+                                </div>
+
+                                <div class="block_info">
+                                    <h3>
+                                        <strong class="header_prof">Other specialization</strong>
+                                    </h3>
+                                        <p class="info">{{ info.other_specialities|default_no_info }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contact-details">
+                                <h3>
+                                    <strong class="header_prof">Contact Information</strong>
+                                </h3>
+
+                                    <p><strong>Personal identifier:</strong> {{ info.username }}</p>
+
+                                    {% if info.email %}
+                                        <p><strong>Email:</strong> {{ info.email }}</p>
+                                    {% endif %}
+
+                                    {% if info.phone %}
+                                        <p><strong>Phone number:</strong> {{ info.phone }}</p>
+                                    {% endif %}
+
+                                <h3>
+                                    <strong class="header_prof">Education</strong>
+                                </h3>
+
+                               {{ info.education|default_no_info }}
+                            </div>
+                    {% endfor %}
+                    </div>
+        </div>
+    </body>
+    <script src="{% static 'js/mentors.js' %}"></script>
+{% endblock %}

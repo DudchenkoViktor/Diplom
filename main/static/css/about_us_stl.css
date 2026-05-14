@@ -1,0 +1,18 @@
+
+    .info_abt {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #FFFFFF; /* white background for content */
+      border: 1px solid #CCCCCC;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header_about_us{
+      color: #333333; /* dark gray text */
+    }
+   .info_text {
+      color: #666666; /* medium gray text */
+    }
+    .about-us-section {
+      margin-bottom: 40px;
+    }

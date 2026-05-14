@@ -1,0 +1,37 @@
+
+<div style="display: contents" class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div id="notification" class="position-fixed start-50 translate-middle-x z-3 alert alert-success fade show custom-shadow notification" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.tags == 'warning' %}
+                    <div id="notification" class="position-fixed start-50 translate-middle-x z-3 alert alert-danger fade show custom-shadow notification" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            <div id="jq-notification" class="position-fixed start-50 translate-middle-x z-3 alert alert-success fade show custom-shadow notification" style="display: none;" role="alert">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+        .notification {
+            justify-content: center;
+            align-items: center;
+            left: 40%;
+            width: 300px; /* или любой другой ширины, подходящей для вашего дизайна */
+            height: auto;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+</style>

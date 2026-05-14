@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+<body>
+    {% block content %}
+        <head>
+            <link rel="stylesheet" href="{% static "css/main_stl.css" %}">
+        </head>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <style>
+            .hero-image {
+                background-image: url('{% static "css/images/books.avif" %}');
+                background-position: center;
+                height: 100vh;
+            }
+        </style>
+
+        <div class="container-fluid p-0" style="background-color: #f5f5dc;">
+            <div class="hero-image row no-gutters">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-center">
+                    </div>
+                </div>
+                <div class="col-md-6 hero-text d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <h1 class="display-4 text-uppercase text-white">Find your perfect teacher</h1>
+                        <p class="lead text-white">We help you find the best tutor in your city</p>
+                        <a href="{% url 'teachers:roster' %}" class="btn btn-light btn-lg">Find a teacher</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <div class="card card-body text-center h-100 shadow">
+                        <i class="fas fa-chalkboard-teacher fa-3x icon-custom mb-3"></i>
+                        <h3 class="card_title">Experienced teachers</h3>
+                        <p class="card_text">Choose your teacher by the categories that fit you from hundreds of professionals </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-body text-center h-100 shadow">
+                        <i class="fas fa-users fa-3x icon-custom mb-3"></i>
+                        <h3 class="card_title">For all ages</h3>
+                        <p class="card_text">We offer tutoring services for students of all ages and levels</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-body text-center h-100 shadow">
+                        <i class="fas fa-map-marker-alt fa-3x icon-custom mb-3"></i>
+                        <h3 class="card_title">In any city </h3>
+                        <p class="card_text">Pick up a teacher from your city for convenient instruction </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+</body>
+</html>

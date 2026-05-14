@@ -1,0 +1,17 @@
+
+venv/
+.pylintrc
+__pycache__/
+
+cache/
+
+.idea
+
+.env
+
+db.sqlite3
+media/
+
+nginx.conf
+
+staticfiles/

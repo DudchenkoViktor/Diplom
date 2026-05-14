@@ -1,0 +1,17 @@
+.hero-text {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.text-uppercase {
+    text-transform: uppercase;
+}
+.card {
+    background-color: #987654; /*#CD853F8 #654321 #987654*/
+}
+.icon-custom{
+    color: WHITE;
+}
+
+.card_title, .card_text {
+    font-weight: 800;
+    color: WHITE;
+}

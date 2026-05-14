@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="container registration_container">
+    <div class="form_container">
+        {% block login %}
+        <h2>Sign up</h2>
+        <form action="{% url 'users:registration' %}" method="POST" class="register_form">
+            {% csrf_token %}
+            <div class="form_group">
+                <input type="text" id="id_first_name"
+                       value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                       name="first_name"
+                       placeholder="First Name" required>
+
+                <input type="text" id="id_last_name"
+                       value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
+                       name="last_name"
+                       placeholder="Last Name" required>
+            </div>
+
+            <div class="form_group">
+                <input type="text" id="id_username"
+                       value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                       name="username" placeholder="Personal identifier" required>
+
+                <div class="password_container">
+                    <input class="password_input" type="password" id="id_password1"
+                           value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}"
+                           name="password1" placeholder="Password" required>
+                    <button type="button" class="toggle-password" data-target="#id_password1">
+                        <span class="material-icons">visibility</span>
+                    </button>
+                </div>
+                <input type="hidden" name="password2" id="id_password2"
+                       value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}">
+            </div>
+
+            <div class="form_group">
+                <input type="text" list="cityes" id="id_locations" name="locations" placeholder="Location" required>
+                <datalist id="cityes">
+                    {% for loca in locations %}
+                        <option value="{{ loca.name }}"></option>
+                    {% endfor %}
+                </datalist>
+
+                <input type="text" list="specialties" id="id_main_specialty" name="main_specialty"
+                       placeholder="Specialization" required>
+                <datalist id="specialties">
+                    {% for spec in specializations %}
+                        <option value="{{ spec.name_spec }}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+
+            <div class="decor_container">
+                <button type="submit" class="register_button">Register</button>
+                <div class="decor_before" {% if form.errors %}style="background: #ff0000; border: 15px solid #c41e32;" {% endif %}></div>
+                <div class="decor_after" {% if form.errors %}style="background: #ff0000; border: 15px solid #c41e32;" {% endif %}></div>
+            </div>
+
+
+
+
+            {% endblock login %}
+
+            {% block link %}
+            <p class="link">Already have an account ?
+                <a href="{% url 'users:login' %}" class="span">Sign in</a>
+            </p>
+            {% endblock link %}
+
+            <div class="block_errors">
+                <div class="right_errors_block">
+                    {% if form.last_name.errors %}
+                         <div class="warning">{{form.last_name.errors}}</div>
+                    {% endif %}
+
+                    {% if form.password2.errors %}
+                        <div class="warning">{{form.password2.errors}}</div>
+                    {% endif %}
+
+                    {% if form.main_specialty.errors %}
+                        <div class="warning_id">Select one of the suggested values in the speciality field.</div>
+                    {% endif %}
+                </div>
+
+                <div class="left_errors_block">
+                    {% if form.first_name.errors %}
+                        <div class="warning">{{form.first_name.errors}}</div>
+                    {% endif %}
+
+                    {% if form.username.errors %}
+                        <div class="warning_id">A profile with this personal identifier already exists.</div>
+                    {% endif %}
+
+                    {% if form.locations.errors %}
+                        <div class="warning_id">Select one of the suggested values in the location field.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/registration.js' %}"></script>
+</body>
+{% endblock %}

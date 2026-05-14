@@ -1,0 +1,23 @@
+[
+  {
+    "model": "users.mode_teaching",
+    "pk": 1,
+    "fields": {
+      "name_mode": "Offline"
+    }
+  },
+  {
+    "model": "users.mode_teaching",
+    "pk": 2,
+    "fields": {
+      "name_mode": "Online"
+    }
+  },
+  {
+    "model": "users.mode_teaching",
+    "pk": 3,
+    "fields": {
+      "name_mode": "Blended"
+    }
+  }
+]

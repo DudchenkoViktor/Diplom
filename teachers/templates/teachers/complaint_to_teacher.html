@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static "css/complaints.css" %}">
+    <title>Complaint Form</title>
+</head>
+<body>
+<div class="container ss">
+    <h1 class="complaint_head">Complaint Form</h1>
+    <p>
+        This page is designed to help us weed out all unscrupulous teachers and tutors who,
+        for one reason or another, provide poor quality teaching, engage in fraud and other activities
+        that interfere with our users who use our site to find tutors to learn new skills. Please write
+        the personal ID of the tutor you feel should be blocked on our platform, and select the most appropriate
+        reason to complain about the tutor from the list. Our team will process all requests and respond to all
+        complaints as soon as possible. Thank you for your cooperation!
+    </p>
+
+    <form action="{% url 'teachers:complaint' %}" method="POST" class="complaint-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" id="id_teacher_name"
+                   name="teacher_name"
+                   value="{% if form.teacher_name.value %}{{ form.teacher_name.value }}{% endif %}"
+                   placeholder="Personal identifier" required>
+            <input type="text" list="complaints" id="id_complaint" name="complaint"
+                   value="{% if form.complaint.value %}{{ form.complaint.value }}{% endif %}"
+                   placeholder="Complaint" required>
+        </div>
+        <datalist id="complaints">
+            {% for complaint in complaints %}
+                <option value="{{ complaint.name_complaint }}"></option>
+            {% endfor %}
+        </datalist>
+
+        <button type="submit" class="btn btn_complaint">Confirm</button>
+    </form>
+    <div class="block_errors">
+        <div class="right_errors_block">
+            {% if form.teacher_name.errors %}
+                <div class="warning">{{ form.teacher_name.errors }}</div>
+            {% endif %}
+
+            {% if form.complaint.errors %}
+                <div class="warning">{{ form.complaint.errors }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+
+{% endblock %}
+  {#    <script>#}
+    {#$(document).ready(function() {#}
+    {#    $('#complaintForm').on('submit', function(event) {#}
+    {#        event.preventDefault(); // Предотвращаем стандартное поведение формы#}
+    {##}
+    {#        // Получаем данные формы#}
+    {#        let formData = $(this).serializeArray();#}
+    {#        let complaintValue = '';#}
+    {##}
+    {#        // Найти значение жалобы и заменить его на ID#}
+    {#        formData.forEach(function(field) {#}
+    {#            if (field.name === 'complaint') {#}
+    {#                switch (field.value) {#}
+    {#                    case 'aaa':#}
+    {#                        complaintValue = '1';#}
+    {#                        break;#}
+    {#                    case 'bbb':#}
+    {#                        complaintValue = '2';#}
+    {#                        break;#}
+    {#                    // Добавьте дополнительные значения здесь#}
+    {#                }#}
+    {#                field.value = complaintValue;#}
+    {#            }#}
+    {#        });#}
+    {##}
+    {#        // Отправить данные с измененным значением жалобы на сервер#}
+    {#        $.ajax({#}
+    {#            type: 'POST',#}
+    {#            url: '{% url "complaint_create" %}', // Замените на URL вашего представления#}
+    {#            data: formData,#}
+    {#            success: function(response) {#}
+    {#                // Обработать успешный ответ#}
+    {#                alert('Complaint submitted successfully!');#}
+    {#            },#}
+    {#            error: function(response) {#}
+    {#                // Обработать ошибку#}
+    {#                alert('An error occurred. Please try again.');#}
+    {#            }#}
+    {#        });#}
+    {#    });#}
+    {#});#}
+    {#</script>#}

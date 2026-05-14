@@ -1,0 +1,51 @@
+[
+  {
+    "model": "teachers.specializations",
+    "pk": 7,
+    "fields": {
+      "name_spec": "Math"
+    }
+  },
+  {
+    "model": "teachers.specializations",
+    "pk": 8,
+    "fields": {
+      "name_spec": "English"
+    }
+  },
+  {
+    "model": "teachers.specializations",
+    "pk": 9,
+    "fields": {
+      "name_spec": "Physics"
+    }
+  },
+  {
+    "model": "teachers.specializations",
+    "pk": 10,
+    "fields": {
+      "name_spec": "Chemistry"
+    }
+  },
+  {
+    "model": "teachers.specializations",
+    "pk": 11,
+    "fields": {
+      "name_spec": "Biology"
+    }
+  },
+  {
+    "model": "teachers.specializations",
+    "pk": 12,
+    "fields": {
+      "name_spec": "Geography"
+    }
+  },
+  {
+    "model": "teachers.specializations",
+    "pk": 13,
+    "fields": {
+      "name_spec": "Spelling"
+    }
+  }
+]

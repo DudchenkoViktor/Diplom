@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static "css/about_us_stl.css" %}">
+    <title>About EduConnect</title>
+</head>
+<body>
+  <div class="container info_abt">
+    <h1 class="header_about_us">About EduConnect</h1>
+    <p class="info_text">
+        "EduConnect" is a modern tutoring platform developed as a final diploma project. Our mission is to streamline the interaction between students and educators, providing a comprehensive toolkit for effective learning and professional development.
+    </p>
+
+    <div class="about-us-section">
+      <h2 class="header_about_us">Our Story</h2>
+      <p class="info_text">
+          The project was initiated in 2026 at the "Igor Sikorsky Kyiv Polytechnic Institute (KPI)". The concept emerged from the necessity to create a unified digital environment for finding qualified mentors, where students can receive support in mastering complex technical disciplines.
+      </p>
+    </div>
+
+    <div class="about-us-section">
+      <h2 class="header_about_us">Development Team</h2>
+      <p class="info_text">The platform was built by a dedicated developer, combining expertise in Python, Django, and modern web architecture:</p>
+      <ul>
+        <li>"Viktor Dudchenko" — Lead Backend Developer / System Architect</li>
+        <li>" TR-25 Community" — Frontend Support & UI/UX Design</li>
+      </ul>
+    </div>
+
+    <div class="about-us-section">
+      <h2 class="header_about_us">Our Core Principles</h2>
+      <p class="info_text">
+          We believe that high-quality education should be accessible to everyone. EduConnect focuses on three key pillars:
+      </p>
+      <ul>
+        <li>"Accessibility:" Finding tutors for various learning formats, including Online and Offline sessions.</li>
+        <li>"Transparency:" A robust feedback and rating system to ensure the highest standards of teaching.</li>
+        <li>"Reliability:" Utilizing Docker and cloud-based solutions to ensure stable and scalable service performance.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+{% endblock %}

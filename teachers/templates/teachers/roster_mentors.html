@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cache %}
+{% load teachers_tags %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static "css/teachers.css" %}">
+</head>
+
+<body>
+    <form class="d-flex search-form" role="search" action="{% url 'teachers:search' %}" method="get">
+        <input class="form-control me-2 search_input" type="search" name="q" placeholder="Type.." aria-label="Search">
+        <button class="btn btn-outline-light btn_search" type="submit">Search</button>
+    </form>
+
+    <h2 class="am_teachers"><strong>Teachers/Mentors | {{ profiles_amount }}</strong></h2>
+    <form method="get" action="{% if request.GET.q %}{% url 'teachers:search' %}{% else %}{% url 'teachers:roster' %}{% endif %}">
+    <div class="filter_up">
+
+    {% if request.GET.q %}
+        <input type="hidden" name="q" value="{{ request.GET.q }}">
+    {% endif %}
+
+        <!-- Фильтры -->
+        <div class="dropdown d-inline-block me-2">
+            <button class="btn btn-success dropdown-toggle choose_sort_btn" id="experienceDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                Select type of studying
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="experienceDropdown">
+                {% cache 180 type_teaching %}
+                    {% for mode in modes %}
+                        <li>
+                            <button type="button" class="dropdown-item"
+                                    onclick="updateDropdown('expId', '{{ mode.name_mode }}', 'experienceInput')">
+                                {{ mode.name_mode }} studying
+                            </button>
+                        </li>
+                    {% endfor %}
+                {% endcache %}
+            </ul>
+            <div id="expId" class="display-text">{% if request.GET.type_std %}{{ request.GET.type_std }} studying {% endif %}</div>
+            <input type="hidden" id="experienceInput" name="type_std" class="input_filt">
+        </div>
+
+        <!-- Фильтр по локации -->
+        <div class="dropdown d-inline-block me-2">
+            <button class="btn btn-success dropdown-toggle choose_sort_btn" id="locationDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                Choose location
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                {% for loca in locality %}
+                    <li>
+                        <button type="button" class="dropdown-item"
+                                onclick="updateDropdown('locId', '{{ loca.name }}', 'locationInput')">
+                            {{ loca.name }}
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div id="locId" class="display-text"> {% if request.GET.location %}{{ request.GET.location }}{% endif %}</div>
+            <input type="hidden" id="locationInput" name="location" class="input_filt">
+        </div>
+
+        <!-- Фильтр по сортировке -->
+        <div class="dropdown d-inline-block me-2 sort_dropdown">
+            <button class="btn btn-success dropdown-toggle choose_sort_btn" id="sortDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                Sort
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                <li>
+                    <button type="button" class="dropdown-item"
+                            onclick="updateDropdown('sortId', 'A-Z', 'sortInput')">
+                        A-Z
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="dropdown-item"
+                            onclick="updateDropdown('sortId', 'Z-A', 'sortInput')">
+                        Z-A
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="dropdown-item"
+                            onclick="updateDropdown('sortId', 'By experience', 'sortInput')">
+                        By experience
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="dropdown-item"
+                            onclick="updateDropdown('sortId', 'By age', 'sortInput')">
+                        By age
+                    </button>
+                </li>
+            </ul>
+            <div id="sortId" class="display-text-sort">
+                {% if request.GET.sort %}
+                    {{ request.GET.sort|sort_name }}
+                {% endif %}
+            </div>
+
+            <input type="hidden" id="sortInput" name="sort">
+        </div>
+
+    <button type="submit" class="btn btn-outline-success confirm_btn">Confirm</button>
+
+    </div>
+
+    <div class="row no-gutters all_teachers">
+        {% for info in profiles %}
+            <div class="container col-md-8 mt-4 teacher_card">
+                <div class="d-flex align-items-center">
+                <div class="profile_picture">
+                    {% if info.image %}
+                        <img src="{{ info.image.url }}" class="profile-image rounded-circle me-4">
+                    {% else %}
+                        <img src="{% static "deps/image/base_image.jpg" %}" class="profile-image rounded-circle me-4" alt="...">
+                    {% endif %}
+                </div>
+
+                    <div class="mt-4 info_abt">
+                        <h2 class="full_name">
+                            {% autoescape off %}
+                                {% if info.headline_firstname %}
+                                    {{ info.headline_firstname }}
+                                {% else %}
+                                    {{ info.first_name }}
+                                {% endif %}
+                                {% if info.headline_lastname %}
+                                    {{ info.headline_lastname }}
+                                {% else %}
+                                    {{ info.last_name }}
+                                {% endif %}
+                            {% endautoescape %}
+                        </h2>
+                        <p class="spec"><strong>Specialization:</strong> {{ info.main_specialty }}</p>
+                        {% if info.age %}
+                            <p class="age"><strong>Age:</strong> {{ info.age }}</p>
+                        {% else %}
+                            <p class="age"><strong>Age:</strong> Information not provided</p>
+                        {% endif %}
+                        <p class="exp"><strong>Location:</strong> {{ info.locations }}</p>
+                        <button class="more_inf"><a href="{% url 'teachers:mentors' info.slug %}" type="button">More info</a></button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="col-md-4 categ_filt">
+            <h5 class="header"><strong>Teachers in the field of:</strong></h5>
+            <ul class="filter_right">
+                <li class="jj">
+                    <button class='list-group-item category' role="button">All mentors</button>
+                </li>
+                {% cache 180 specialization %}
+                    {% for spec in specializations %}
+                        <li class="jj">
+                            <button class='list-group-item category' type='button'
+                                {% if request.GET.speciality == spec.name_spec %}
+                                    style="
+                                        border: 2px solid white;
+                                        background: #649C3F;
+                                        color: white;
+                                        font-weight: bold;
+                                    "
+                                {% endif %}
+                                onclick="updateDropdown('specId', '{{ spec.name_spec }}', 'specialityInput')">
+                                {{ spec.name_spec }}
+                            </button>
+                        </li>
+                    {% endfor %}
+                {% endcache %}
+            </ul>
+            <div id="specId" style="visibility: hidden"></div>
+            <input type="hidden" id="specialityInput" name="speciality" class="input_filt">
+        </div>
+    </div>
+</form>
+
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center my-4">
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?{% if page_obj.has_previous %}{% change_params page=page_obj.previous_page_number %}{% else %}#{% endif %}">Previous</a>
+            </li>
+            {% for page in page_obj.paginator.page_range %}
+                {% if page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+                    <li class="page-item {% if page_obj.number == page %} active {% endif %}">
+                        <a class="page-link" href="?{% change_params page=page %}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?{% if page_obj.has_next %}{% change_params page=page_obj.next_page_number %}{% else %}#{% endif %}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    <script src="{% static 'js/mentors.js' %}"></script>
+</body>
+{% endblock %}
